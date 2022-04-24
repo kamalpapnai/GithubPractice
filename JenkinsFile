@@ -3,6 +3,13 @@ pipeline{
 
    agent any
 
+   environment{
+     NEW_VERSION = '1.3.0'
+     
+     //credentials is provided by  'Credential Binding' plugin and it takes id as parameter which we can define at time of ssaving credentials
+     SERVER_CREDENTIALS = credentials('0345b755-fd12-4311-b4f8-39908fccbf9e')
+
+   }
    stages{
 
         stage("build"){
@@ -15,6 +22,7 @@ pipeline{
           steps{
 
               echo 'building the application'
+              echo "building version ${NEW_VERSION} enclosed in double quotes in groovy to access variables values"
           }
 
         }
@@ -40,6 +48,13 @@ pipeline{
 
             steps{
                 echo 'deploying the application'
+                echo "deploying with ${SERVER_CREDENTIALS}"
+
+                //or we can directly define credentials without using it in environment
+                withCredentials([usernamePassword(credentials:'0345b755-fd12-4311-b4f8-39908fccbf9e', usernameVariable: USER, passwordVariable: PWD)])
+                {
+                  echo "using with credentials ${USER} and ${PWD}"
+                }
             }
         }
 
