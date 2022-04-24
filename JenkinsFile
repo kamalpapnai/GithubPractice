@@ -34,7 +34,7 @@ pipeline{
             steps{
                 //groovy scripts can only be used within the script block
                script{
-                 gv = load "script.groovy"
+                 gv = load "groovy.script"
                }
            }   
 
