@@ -2,6 +2,22 @@ CODE_CHANGES = true
 pipeline{
 
    agent any
+   
+//    tools{
+//        //buildtoolname configuredName in Jenkind -> GlobalToolConfiguration
+//       maven 'Maven'
+//       gradle
+//       jdk
+//    }
+
+
+  parameters{
+      string(name:'VERSION', defaultValue:'', description:'Version to deploy on PROD')
+      choice(name:'CHOICE_VERSION', choices:['1.1.0','1.2.0','1.3.0'], description:'')
+      booleanParam(name:'executeTests', defaultValue:true, description:'')
+
+      //access using params.name inside stages
+  }
 
    environment{
      NEW_VERSION = '1.3.0'
@@ -32,7 +48,7 @@ pipeline{
 
            when{
                expression{
-                   env.BRANCH_NAME == 'dev' || env.BRANCH_NAME == 'master'
+                    params.executeTests || env.BRANCH_NAME == 'dev' || env.BRANCH_NAME == 'master'
                }
            }
 
@@ -51,10 +67,12 @@ pipeline{
                 echo "deploying with ${SERVER_CREDENTIALS}"
 
                 //or we can directly define credentials without using it in environment
-                withCredentials([usernamePassword(credentials:'0345b755-fd12-4311-b4f8-39908fccbf9e', usernameVariable: USER, passwordVariable: PWD)])
-                {
-                  echo "using with credentials ${USER} and ${PWD}"
-                }
+                //withCredentials([usernamePassword(credentials:'0345b755-fd12-4311-b4f8-39908fccbf9e', usernameVariable: USER, passwordVariable: PWD)])
+               // {
+                //  echo "using with credentials ${USER} and ${PWD}"
+                //}
+
+                echo "deploying version ${CHOICE_VERSION}"
             }
         }
 
