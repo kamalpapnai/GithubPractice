@@ -1,4 +1,5 @@
 CODE_CHANGES = true
+def gv
 pipeline{
 
    agent any
@@ -28,6 +29,18 @@ pipeline{
    }
    stages{
 
+
+        stage("init"){
+            steps{
+                //groovy scripts can only be used within the script block
+               script{
+                 gv = load "script.groovy"
+               }
+           }   
+
+        }
+
+
         stage("build"){
             when{
                expression{
@@ -36,7 +49,9 @@ pipeline{
            }
 
           steps{
-
+              script{
+                  gv.buildApp()
+              }
               echo 'building the application'
               echo "building version ${NEW_VERSION} enclosed in double quotes in groovy to access variables values"
           }
@@ -72,7 +87,7 @@ pipeline{
                 //  echo "using with credentials ${USER} and ${PWD}"
                 //}
 
-                echo "deploying version ${params.CHOICE_VERSION}"
+                echo "deploying version ${CHOICE_VERSION}"
             }
         }
 
