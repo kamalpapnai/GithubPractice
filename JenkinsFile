@@ -72,7 +72,7 @@ pipeline{
                 //  echo "using with credentials ${USER} and ${PWD}"
                 //}
 
-                echo "deploying version ${CHOICE_VERSION}"
+                echo "deploying version ${params.CHOICE_VERSION}"
             }
         }
 
