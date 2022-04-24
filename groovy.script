@@ -1,0 +1,6 @@
+def buildApp()
+{
+    //the env parameters and parameters in jenkins file become available here also
+    echo 'building the application'
+    echo "building the version ${params.CHOICE_VERSION}"
+}
