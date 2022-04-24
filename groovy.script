@@ -4,3 +4,5 @@ def buildApp()
     echo 'building the application'
     echo "building the version ${params.CHOICE_VERSION}"
 }
+
+return this
